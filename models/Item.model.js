@@ -31,7 +31,7 @@ const itemSchema = new Schema(
         enum: ["available", "reserved", "gifted"],
         default: "available"
     },
-    owner: [{ type: Schema.Types.ObjectId, ref: "User" }]
+    owner: { type: Schema.Types.ObjectId, ref: "User" }
   },
   {
     timestamps: true,

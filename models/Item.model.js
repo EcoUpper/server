@@ -34,7 +34,6 @@ const itemSchema = new Schema(
     owner: [{ type: Schema.Types.ObjectId, ref: "User" }]
   },
   {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
   }
 );

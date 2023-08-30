@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User.model")
+const Users = require("../models/User.model")
 
 
 // GET ROUTE TO THE USER'S PROFILE
@@ -8,7 +8,7 @@ router.get("/users/:userId", (req, res, next) => {
 
     const userId = req.params.userId;
 
-    User.findById(userId)
+    Users.findById(userId)
     .then((user) => {
         res.json(user)
         // console.log(user) WORKING
@@ -23,7 +23,7 @@ router.post("/users/:userId", (req, res, next) => {
     const userId = req.params.userId;
     const updatedUser = req.body;
 
-    User.findByIdAndUpdate(userId, updatedUser, {new: true})
+    Users.findByIdAndUpdate(userId, updatedUser, {new: true})
     .then((user) => {
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -45,7 +45,7 @@ router.post("/users/:userId/delete", (req, res, next) => {
 
     const userId = req.params.userId;
 
-    User.findByIdAndRemove(userId)
+    Users.findByIdAndRemove(userId)
     .then(() => {
         res.send("User is deleted")
     })

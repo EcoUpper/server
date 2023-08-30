@@ -1,4 +1,4 @@
-const {Schema, model} = require ('mongoose');
+const { Schema, model } = require('mongoose');
 
 const eventSchema = new Schema(
     {
@@ -6,13 +6,13 @@ const eventSchema = new Schema(
             type: String,
             required: [true, "Title is required"]
         },
-        content:{
+        content: {
             type: String,
             required: [true, "Content is required"]
         },
         created_by: [{ type: Schema.Types.ObjectId, ref: "User" }],
-        image_url:  {type: String},
-        date:{ 
+        image_url: { type: String },
+        date: {
             type: Number,
             required: [true, "Date is required"]
         },
@@ -20,10 +20,9 @@ const eventSchema = new Schema(
             type: String,
             required: [true, "Title is required"]
         }
-    }
-    {
-        timestamps: true,
-    }
+    },
+
+    { timestamps: true }
 );
 
 const Event = model("Event", eventSchema);

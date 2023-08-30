@@ -6,11 +6,7 @@ router.get("/items", (req, res, next) => {
 
     Items.find()
     .then((data)=>{
-        res.json(data)
-    })
-    .then((json)=>{
-        console.log(json);
-        res.json(json)
+       res.json(data)
     })
     .catch(err => console.log(err))
 
@@ -23,10 +19,6 @@ router.get("/items/:itemId", (req, res, next) => {
     Items.findById(itemId)
     .then((data)=>{
         res.json(data)
-    })
-    .then((json)=>{
-        console.log(json);
-        res.json(json)
     })
     .catch(err => console.log(err))
 
@@ -78,7 +70,7 @@ router.get("/items/owner/:userId", (req, res, next) => {
 
     Items.find({owner : userId})
     .then((data)=>{
-        res.json(data)
+        return res.json(data)
     })
     .then((json)=>{
         console.log(json);

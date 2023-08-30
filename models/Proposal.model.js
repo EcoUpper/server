@@ -3,7 +3,7 @@ const { Schema, model } = require("mongoose");
 const proposalSchema = new Schema(
     {
     date: {
-        type: date,
+        type: Date,
         required: [true, "Date is required."],
         min: Date.now()
     },
@@ -14,9 +14,9 @@ const proposalSchema = new Schema(
         default: "pending"
     },
     
-    created_by: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    created_by: { type: Schema.Types.ObjectId, ref: "User" },
 
-    proposed_user: [{ type: Schema.Types.ObjectId, ref: "User" }]  
+    // item_id: { type: Schema.Types.ObjectId, ref: "Item" } 
     },
 
     {timestamp: true}

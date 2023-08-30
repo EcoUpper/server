@@ -64,27 +64,4 @@ router.get("/posts/:userId", (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.get("/posts/batch/create", (req, res) => {
-    const obj = [
-        {
-            "content": "This is the first post.",
-            "created_by": "64ef352122242e05133ed2c3",
-            "image_url": "https://example.com/image1.jpg",
-          },
-          {
-            "content": "Another post here.",
-            "created_by": "64ef352122242e05133ed2c3",
-            "image_url": "https://example.com/image2.jpg",
-          },
-        ]
-
-    Post.create(obj)
-        .then(() => {
-            res.send("post created");
-        })
-        .catch((err) => next(err));
-});
-
-
-
 module.exports = router; 

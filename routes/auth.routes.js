@@ -3,12 +3,12 @@ const router = express.Router();
 const User = require("../models/User.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 const saltRounds = 10;
-// Handle password encryption
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 
-// SIGNUP POST ROUTE
+// SIGNUP POST ROUTE - WORKING
 router.post("/signup", (req, res, next) => {
   const { username, email, password } = req.body;
 
@@ -55,7 +55,7 @@ router.post("/signup", (req, res, next) => {
 });
 
 
-// LOGIN POST ROUTE
+// LOGIN POST ROUTE - WORKING
 router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
 

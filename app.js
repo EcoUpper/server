@@ -21,17 +21,17 @@ require("./config")(app);
 const itemRoutes = require("./routes/item.routes");
 app.use("/db", itemRoutes);
 
-const eventRoutes = require("./routes/event.routes");
-app.use("/db", eventRoutes);
+// const eventRoutes = require("./routes/event.routes");
+// app.use("/db", eventRoutes);
 
 const postRoutes = require("./routes/post.routes");
 app.use("/db", postRoutes);
 
-const proposalRoutes = require("./routes/proposal.routes");
-app.use("/db", proposalRoutes);
+// const proposalRoutes = require("./routes/proposal.routes");
+// app.use("/db", proposalRoutes);
 
-const reviewRoutes = require("./routes/review.routes");
-app.use("/db", reviewRoutes);
+// const reviewRoutes = require("./routes/review.routes");
+// app.use("/db", reviewRoutes);
 
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);

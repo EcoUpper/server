@@ -4,30 +4,35 @@ const Post = require("../models/Post.model")
 
 
 router.get("/posts", (req, res) => {
+    
     Post.find()
         .populate("created_by")
         .then((posts) => {
-            res.render("posts");
+            res.json(posts);
         })
         .catch((err) => console.log(err));
 });
 
-router.post("posts/new", (req, res, next) => {
+router.post("/posts/create/new", (req, res) => {
     const { content, created_by, image_url } = req.body;
-    Post.create({
-        content,
-        created_by,
-        // created_by: req.session.currentUser.username,
-        image_url,
-    })
+
+    const newPost = {
+        content:content,
+        created_by: created_by,
+        image_url:image_url,
+    }
+
+    Post.create(newPost)
         .then((result) => {
             console.log("Post created", result);
-            res.redirect("/posts");
+            res.send("post created")
         })
-        .catch((err) => next(err));
+        .catch((err) => console.log(err));
 });
 
-router.post("/posts/:postsId", (req, res, next) => {
+router.post("/posts/:postId", (req, res, next) => {
+
+    const {postId} = req.params
     
     const { content, created_by, image_url } = req.body;
 
@@ -37,7 +42,7 @@ router.post("/posts/:postsId", (req, res, next) => {
         image_url: image_url
     }
 
-    Post.findByIdAndUpdate(postsId, updatedPost, { new: true })
+    Post.findByIdAndUpdate(postId, updatedPost, { new: true })
 
     .then((newPost) => {
         res.json(newPost);
@@ -54,27 +59,27 @@ router.get("/posts/:userId", (req, res) => {
     Post.find({ created_by: userId })
         .populate("created_by")
         .then((posts) => {
-            res.render("user-posts");
+            res.json(posts);
         })
-        .catch((err) => next(err));
+        .catch((err) => console.log(err));
 });
 
 router.get("/posts/batch/create", (req, res) => {
     const obj = [
         {
             "content": "This is the first post.",
-            "created_by": "6151a4a5e8779c0015dbae61",
+            "created_by": "64ef352122242e05133ed2c3",
             "image_url": "https://example.com/image1.jpg",
           },
           {
             "content": "Another post here.",
-            "created_by": "6151a4a5e8779c0015dbae63",
+            "created_by": "64ef352122242e05133ed2c3",
             "image_url": "https://example.com/image2.jpg",
           },
         ]
 
-    Post.find({ created_by: userId })
-        .then((posts) => {
+    Post.create(obj)
+        .then(() => {
             res.send("post created");
         })
         .catch((err) => next(err));

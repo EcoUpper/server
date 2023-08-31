@@ -59,32 +59,30 @@ router.delete('/proposals/:itemId/:propId', (req, res) => {
 
 //   PUT
 
-// router.put('/proposals/:propId', isAuthenticated, (req, res) => {
-//     const propId = req.params.propId;
-//     const { status, created_by } = req.body;
-//     const userId = req.payload._id
-//     // look for the item that has this proposal
-//     // then you check if the req.payload._id === owner
+router.put('/proposals/:propId', isAuthenticated, (req, res) => {
+    const propId = req.params.propId;
+    const { status, created_by } = req.body;
+    const userId = req.payload._id
+    
+    Item.find({ "proposals": { $in: [propId] } })
+        .then((item) => {
+            const itemCreatorId = item.created_by
 
-//     Item.find({ "proposals": { $in: [propId] } })
-//         .then((item) => {
-//             const itemCreatorId = item.created_by
+            if (userId === created_by || userId === itemCreatorId) {
 
-//             if (userId === created_by || userId === itemCreatorId) {
+                Proposal.findByIdAndUpdate(propId, { status: status }, { new: true })
+                    .then((proposal) => {
+                        res.json(proposal);
+                        console.log("Proposal id working");
 
-//                 Proposal.findByIdAndUpdate(propId, { status: status }, { new: true })
-//                     .then((proposal) => {
-//                         res.json(proposal);
-//                         console.log("Proposal id working");
+                    })
+                    .catch((err) => {
+                        console.log("Proposal not found", err);
+                    })
+            }
+        })
 
-//                     })
-//                     .catch((err) => {
-//                         console.log("Proposal not found", err);
-//                     })
-//             }
-//         })
-
-// });
+});
 
 
 

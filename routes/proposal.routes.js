@@ -20,12 +20,9 @@ router.get('/proposals/:itemId', (req, res) => {
 });
 
 router.post('/proposals/:itemId/new', (req, res) => {
-    const itemId = req.params.itemId;
+    const {itemId} = req.params
     const {date, status, created_by} = req.body;
     Proposal.create({date, status, created_by:created_by})
-    .then((proposals)=> {
-        return res.json(proposals)
-    })
     .then((proposal)=>{
         console.log(proposal);
         return Item.findByIdAndUpdate(itemId, {$push:{proposals : proposal._id}}, {new:true})
@@ -36,7 +33,6 @@ router.post('/proposals/:itemId/new', (req, res) => {
     .catch((err) =>{
         console.log("Proposals not found", err);
     })
-
   });
 
 //   PUT

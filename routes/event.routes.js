@@ -14,6 +14,18 @@ router.get("/events", (req, res) => {
         .catch((err) => console.log(err));
 });
 
+router.get("/events/:eventId", (req, res) => {
+
+    const {eventId} = req.params
+
+    Event.findById(eventId)
+        .then((event) => {
+            res.json(event);
+        })
+        .catch((err) => console.log(err));
+
+})
+
 router.post("/events/create/new", isAuthenticated, (req, res) => {
     const { title, content, created_by, image_url, date, location } = req.body;
 

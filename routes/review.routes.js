@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const Reviews = require("../models/Review.model");
-const { isAuthenticated } = require("../middleware/jwt.middleware");
+// const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
-router.post("/reviews/create/:userId", isAuthenticated, (req, res, next) => {
+router.post("/reviews/create/:userId", (req, res, next) => {
 
     const userId = req.params.userId
     const {title, comment, rating, created_by, reviewed_user} = req.body
@@ -27,7 +27,7 @@ router.post("/reviews/create/:userId", isAuthenticated, (req, res, next) => {
 });
 
 
-router.get("/reviews/:userId", isAuthenticated, (req, res, next) => {
+router.get("/reviews/:userId", (req, res, next) => {
 
     const userId = req.params.userId
 

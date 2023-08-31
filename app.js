@@ -15,8 +15,6 @@ const app = express();
 require("./config")(app);
 
 // 👇 Start handling routes here
-// const indexRoutes = require("./routes/index.routes");
-// app.use("/api", indexRoutes);
 
 const newsRoutes = require("./routes/news.routes");
 app.use("/api", newsRoutes);

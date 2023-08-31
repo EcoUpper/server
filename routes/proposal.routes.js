@@ -2,13 +2,12 @@ const express = require("express");
 const router = express.Router();
 const Item = require("../models/Item.model");
 const Proposal = require("../models/Proposal.model");
-const { isAuthenticated } = require("../middleware/jwt.middleware");
+// const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 // Route to get all the proposals of an specific item 
-router.get('/proposals/:itemId', isAuthenticated, (req, res) => {
+router.get('/proposals/:itemId', (req, res) => {
     const itemId = req.params.itemId;
-    // const 
 
     Item.findById(itemId)
         .populate("proposals")
@@ -59,11 +58,10 @@ router.delete('/proposals/:itemId/:propId', (req, res) => {
 
 //   PUT
 
-router.put('/proposals/:propId', isAuthenticated, (req, res) => {
+router.put('/proposals/:propId', (req, res) => {
     const propId = req.params.propId;
     const { status, created_by } = req.body;
-    const userId = req.payload._id
-    
+        
     Item.find({ "proposals": { $in: [propId] } })
         .then((item) => {
             const itemCreatorId = item.created_by

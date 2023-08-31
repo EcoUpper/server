@@ -23,24 +23,22 @@ router.get('/proposals/:itemId', isAuthenticated, (req, res) => {
 
 
 router.post('/proposals/:itemId/new', (req, res) => {
-    const itemId = req.params.itemId;
-    const { date, status, created_by } = req.body;
-    Proposal.create({ date, status, created_by: created_by })
-        .then((proposals) => {
-            return res.json(proposals)
-        })
-        .then((proposal) => {
-            console.log(proposal);
-            return Item.findByIdAndUpdate(itemId, { $push: { proposals: proposal._id } }, { new: true })
-        })
-        .then((data) => {
-            res.json(data)
-        })
-        .catch((err) => {
-            console.log("Proposals not found", err);
-        })
 
-});
+    const {itemId} = req.params
+    const {date, status, created_by} = req.body;
+    Proposal.create({date, status, created_by:created_by})
+    .then((proposal)=>{
+        console.log(proposal);
+        return Item.findByIdAndUpdate(itemId, {$push:{proposals : proposal._id}}, {new:true})
+    })
+    .then((data)=>{
+        res.json(data)
+    })
+    .catch((err) =>{
+        console.log("Proposals not found", err);
+    })
+  });
+
 
 //   PUT
 

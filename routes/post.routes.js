@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post.model");
-const { isAuthenticated } = require("../middleware/jwt.middleware");
+// const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 router.get("/posts", (req, res) => {
@@ -14,7 +14,7 @@ router.get("/posts", (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.post("/posts/create/new", isAuthenticated, (req, res) => {
+router.post("/posts/create/new", (req, res) => {
     const { content, created_by, image_url } = req.body;
 
     const newPost = {
@@ -31,11 +31,10 @@ router.post("/posts/create/new", isAuthenticated, (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.put("/posts/:postId", isAuthenticated, (req, res, next) => {
+router.put("/posts/:postId", (req, res, next) => {
 
     const {postId} = req.params
     const { content, created_by, image_url } = req.body;
-    const ownerId = req.payload._id
 
     const updatedPost= {
         content: content,
@@ -43,33 +42,23 @@ router.put("/posts/:postId", isAuthenticated, (req, res, next) => {
         image_url: image_url
     }
 
-    if(created_by === ownerId) {
         Post.findByIdAndUpdate(postId, updatedPost, { new: true })
         .then((newPost) => {
             res.json(newPost);
         })
         .catch((err) => next(err));
-    }
-    else {
-        res.status(401).send("No owner rights.")
-    }
+
 })
 
-router.get("/posts/:userId", isAuthenticated, (req, res) => {
+router.get("/posts/:userId", (req, res) => {
     const { userId } = req.params;
-    const ownerId = req.payload._id
 
-    if(userId === ownerId) {
         Post.find({ created_by: userId })
         .populate("created_by")
         .then((posts) => {
             res.json(posts);
         })
         .catch((err) => console.log(err));
-    }
-    else {
-        res.status(401).send("No owner rights.")
-    }
 });
 
 module.exports = router; 

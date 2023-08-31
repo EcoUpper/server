@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Items = require("../models/Item.model");
-const { isAuthenticated } = require("../middleware/jwt.middleware");
+// const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 router.get("/items", (req, res, next) => {
@@ -26,11 +26,10 @@ router.get("/items/:itemId", (req, res, next) => {
 
 });
 
-router.put("/items/:itemId", isAuthenticated, (req, res, next) => {
+router.put("/items/:itemId", (req, res, next) => {
 
     const {name, description, image_url, type, expiration_date, status, owner} = req.body
     const {itemId} = req.params
-    const ownerId = req.payload._id
 
     const itemObj = {
         name: name,
@@ -42,7 +41,7 @@ router.put("/items/:itemId", isAuthenticated, (req, res, next) => {
         owner : owner
     }
 
-    if(ownerId === owner) {
+
         Items.findByIdAndUpdate(itemId, itemObj, { new: true })
         .then((updatedUser)=>{
             return res.json(updatedUser)
@@ -52,37 +51,26 @@ router.put("/items/:itemId", isAuthenticated, (req, res, next) => {
             res.json(json)
         })
         .catch(err => console.log(err))
-    }
-    else {
-        res.status(401).send("No owner rights.")
-    }
 
 });
 
-router.delete("/items/:itemId", isAuthenticated, (req, res, next) => {
+router.delete("/items/:itemId",  (req, res, next) => {
 
     const {itemId} = req.params
-    const ownerId = req.payload._id
 
-    if(ownerId === owner) {
     Items.findByIdAndRemove(itemId)
     .then(()=>{
          res.send("Item deleted")
     })
     .catch(err => console.log(err))
-    }
-    else {
-        res.status(401).send("No owner rights.")
-    }
+
 
 });
 
-router.get("/items/owner/:userId", (req, res, next) => {
+router.get("/items/owner/:userId", (req, res) => {
 
-    const {userId, owner} = req.params
-    const ownerId = req.payload._id
+    const {userId} = req.params
 
-    if(ownerId === owner) {
     Items.find({owner : userId})
     .then((data)=>{
         return res.json(data)
@@ -92,10 +80,6 @@ router.get("/items/owner/:userId", (req, res, next) => {
         res.json(json)
     })
     .catch(err => console.log(err))
-    }
-    else {
-        res.status(401).send("No owner rights.")
-    }
 
 });
 
@@ -121,7 +105,7 @@ router.get("/items/owner/:userId", (req, res, next) => {
 //     .catch(err => console.log(err))
 // });
 
-router.post("/items/create/new", isAuthenticated, (req, res, next) => {
+router.post("/items/create/new", (req, res, next) => {
 
     const {name, description, image_url, type, expiration_date, status, owner} = req.body
 

@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const Users = require("../models/User.model");
-const { isAuthenticated } = require("../middleware/jwt.middleware");
+// const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 // GET ROUTE TO THE USER'S PROFILE
-router.get("/users/:userId", isAuthenticated, (req, res, next) => {
+router.get("/users/:userId", (req, res, next) => {
 
     const userId = req.params.userId;
 
@@ -19,14 +19,12 @@ router.get("/users/:userId", isAuthenticated, (req, res, next) => {
 
 
 // POST ROUTE TO MODIFY USER'S PROFILE
-router.put("/users/:userId", isAuthenticated, (req, res, next) => {
+router.put("/users/:userId", (req, res, next) => {
 
     const userId = req.params.userId;
     const updatedUser = req.body;
-    const ownerId = req.payload._id
 
 
-    if(userId === ownerId) {
         Users.findByIdAndUpdate(userId, updatedUser, {new: true})
         .then((user) => {
             if (!user) {
@@ -41,29 +39,21 @@ router.put("/users/:userId", isAuthenticated, (req, res, next) => {
                 // console.error("Error updating user profile:", err); WORKING
                 res.status(500).json({ message: "Internal Server Error" });
             });
-    }
-    else {
-        res.status(401).send("No owner rights.")
-    }
 })
 
 
 // POST ROUTE TO DELETE USER
-router.delete("/users/:userId", isAuthenticated, (req, res, next) => {
+router.delete("/users/:userId", (req, res, next) => {
 
     const userId = req.params.userId;
-    const ownerId = req.payload._id
 
-    if(userId === ownerId) {
+
     Users.findByIdAndRemove(userId)
     .then(() => {
         res.send("User is deleted")
     })
     .catch((err) => console.log("User has been deleted"))
-    }
-    else {
-        res.status(401).send("No owner rights.")
-    }
+
 })
 
 

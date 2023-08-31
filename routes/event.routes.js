@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Event = require("../models/Event.model");
-const { isAuthenticated } = require("../middleware/jwt.middleware.js");
+// const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 
 router.get("/events", (req, res) => {
@@ -14,7 +14,7 @@ router.get("/events", (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.post("/events/create/new", isAuthenticated, (req, res) => {
+router.post("/events/create/new", (req, res) => {
     const { title, content, created_by, image_url, date, location } = req.body;
 
     const newEvent = {
@@ -35,21 +35,16 @@ router.post("/events/create/new", isAuthenticated, (req, res) => {
 
 });
 
-router.get("/events/:userId", isAuthenticated, (req, res) => {
+router.get("/events/:userId", (req, res) => {
     const { userId } = req.params;
-    const ownerId = req.payload._id
+    // const ownerId = req.payload._id
 
-    if (ownerId === owner) {
         Event.find({ created_by: userId })
         .populate("created_by")
         .then((events) => {
             res.json(events);
         })
         .catch((err) => console.log(err));
-    }
-    else {
-        res.status(401).send("No owner rights.")
-    }
 
 });
 

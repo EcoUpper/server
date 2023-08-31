@@ -18,6 +18,9 @@ require("./config")(app);
 // const indexRoutes = require("./routes/index.routes");
 // app.use("/api", indexRoutes);
 
+const newsRoutes = require("./routes/news.routes");
+app.use("/api", newsRoutes);
+
 const itemRoutes = require("./routes/item.routes");
 app.use("/db", itemRoutes);
 

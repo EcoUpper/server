@@ -14,7 +14,7 @@ router.get('/proposals/:itemId', (req, res) => {
         res.json(item.proposals)
     })
     .catch((err) =>{
-        console.log("Proposals not found", err);
+        console.log("ProposapropIdls not found", err);
     })
 
 });
@@ -25,7 +25,7 @@ router.post('/proposals/:itemId/new', (req, res) => {
     Proposal.create({date, status, created_by:created_by})
     .then((proposal)=>{
         console.log(proposal);
-        return Item.findByIdAndUpdate(itemId, {$push:{proposals : proposal._id}}, {new:true})
+        return Item.findByIdAndUpdate(itemId, {$push:{proposals : proposal._id}})
     })
     .then((data)=>{
         res.json(data)
@@ -35,10 +35,26 @@ router.post('/proposals/:itemId/new', (req, res) => {
     })
   });
 
-//   PUT
 
-router.put('/proposals/:propId', (req, res) => {
+router.delete('/proposals/:itemId/:propId', (req, res) => {
     const propId = req.params.propId;
+    const {itemId} = req.params
+    
+    Proposal.findByIdAndRemove(propId) 
+    .then(() =>{
+        console.log("proposal removed");
+        return Item.findByIdAndUpdate(itemId, { $pull: { proposals: propId  } }, {new : true})
+    })
+    .then((result)=>{
+        res.send(result)
+    })
+    .catch((err) =>{
+        console.log("Proposal not found", err);
+    })
+  });
+
+router.delete('/proposals/:propId', (req, res) => {
+    const  {propId} = req.params;
     const {status} = req.body
     Proposal.findByIdAndUpdate(propId, {status: status}, {new:true}) 
     .then((proposal) =>{

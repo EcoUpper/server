@@ -14,7 +14,9 @@ router.get("/events", (req, res) => {
         .catch((err) => console.log(err));
 });
 
+
 router.post("/events/create/new", (req, res) => {
+
     const { title, content, created_by, image_url, date, location } = req.body;
 
     const newEvent = {

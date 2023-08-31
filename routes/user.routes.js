@@ -18,7 +18,7 @@ router.get("/users/:userId", (req, res, next) => {
 
 
 // POST ROUTE TO MODIFY USER'S PROFILE
-router.post("/users/:userId", (req, res, next) => {
+router.put("/users/:userId", (req, res, next) => {
 
     const userId = req.params.userId;
     const updatedUser = req.body;
@@ -41,7 +41,7 @@ router.post("/users/:userId", (req, res, next) => {
 
 
 // POST ROUTE TO DELETE USER
-router.post("/users/:userId/delete", (req, res, next) => {
+router.delete("/users/:userId", (req, res, next) => {
 
     const userId = req.params.userId;
 

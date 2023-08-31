@@ -3,7 +3,6 @@ const cheerio = require("cheerio")
 const express = require("express");
 const router = express.Router();
 
-module.exports = router;
 
 const newspapers = [
     {
@@ -40,3 +39,5 @@ newspapers.forEach(newspaper =>{
 router.get("/news", (req, res,) => {
     res.json(articles)
 });
+
+module.exports = router;

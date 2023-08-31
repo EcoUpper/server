@@ -8,9 +8,10 @@ const Proposal = require("../models/Proposal.model")
 // Route to get all the proposals of an specific item 
 router.get('/proposals/:itemId', (req, res) => {
     const itemId = req.params.itemId;
-    Proposal.find({item:itemId})
-    .then((proposals)=> {
-        res.json(proposals)
+    Item.findById(itemId)
+    .populate("proposals")
+    .then((item)=> {
+        res.json(item.proposals)
     })
     .catch((err) =>{
         console.log("Proposals not found", err);
@@ -20,13 +21,14 @@ router.get('/proposals/:itemId', (req, res) => {
 
 router.post('/proposals/:itemId/new', (req, res) => {
     const itemId = req.params.itemId;
-    const {date, status, userId} = req.body;
-    Proposal.create({date, status, created_by:userId})
+    const {date, status, created_by} = req.body;
+    Proposal.create({date, status, created_by:created_by})
     .then((proposals)=> {
         return res.json(proposals)
     })
     .then((proposal)=>{
-        return Item.findByIdAndUpdate(itemId, {$push:{proposals:proposal._id}}, {new:true})
+        console.log(proposal);
+        return Item.findByIdAndUpdate(itemId, {$push:{proposals : proposal._id}}, {new:true})
     })
     .then((data)=>{
         res.json(data)
@@ -39,7 +41,7 @@ router.post('/proposals/:itemId/new', (req, res) => {
 
 //   PUT
 
-router.post('/proposals/:propId', (req, res) => {
+router.put('/proposals/:propId', (req, res) => {
     const propId = req.params.propId;
     const {status} = req.body
     Proposal.findByIdAndUpdate(propId, {status: status}, {new:true}) 

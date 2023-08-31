@@ -15,9 +15,9 @@ const reviewSchema = new Schema(
         required: [true, "Rating is required."],
         enum: [1,2,3,4,5]
     },
-    created_by: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    created_by: { type: Schema.Types.ObjectId, ref: "User" },
 
-    reviewed_user: [{ type: Schema.Types.ObjectId, ref: "User" }]  
+    reviewed_user: { type: Schema.Types.ObjectId, ref: "User" } 
     },
 
     {timestamp: true}

@@ -58,7 +58,7 @@ router.delete("/items/:itemId", (req, res, next) => {
 
     Items.findByIdAndRemove(itemId)
     .then(()=>{
-         res.send("user deleted")
+         res.send("Item deleted")
     })
     .catch(err => console.log(err))
 
@@ -81,26 +81,26 @@ router.get("/items/owner/:userId", (req, res, next) => {
 });
 
 
-router.get("/items/batch/create", (req, res, next) => {
+// router.get("/items/batch/create", (req, res, next) => {
 
-   data={
-        "name": "Cool erik T-shirt",
-        "description": "A trendy t-shirt with a unique design.",
-        "image_url": "https://example.com/images/tshirt.jpg",
-        "type": "clothing",
-        "expiration_date": "2023-09-15T08:00:00Z",
-        "status": "available",
-        "owner": "64ef352122242e05133ed2c3"
-      }
+//    data={
+//         "name": "Cool erik T-shirt",
+//         "description": "A trendy t-shirt with a unique design.",
+//         "image_url": "https://example.com/images/tshirt.jpg",
+//         "type": "clothing",
+//         "expiration_date": "2023-09-15T08:00:00Z",
+//         "status": "available",
+//         "owner": "64ef352122242e05133ed2c3"
+//       }
    
       
-    Items.create(data)
-    .then((data)=>{
-        console.log(data);
-        res.send("created")
-    })
-    .catch(err => console.log(err))
-});
+//     Items.create(data)
+//     .then((data)=>{
+//         console.log(data);
+//         res.send("created")
+//     })
+//     .catch(err => console.log(err))
+// });
 
 router.post("/items/create/new", (req, res, next) => {
 

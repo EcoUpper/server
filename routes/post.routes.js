@@ -30,7 +30,7 @@ router.post("/posts/create/new", (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.post("/posts/:postId", (req, res, next) => {
+router.put("/posts/:postId", (req, res, next) => {
 
     const {postId} = req.params
     
@@ -50,8 +50,6 @@ router.post("/posts/:postId", (req, res, next) => {
     .catch((err) => next(err));
 
 })
-
-
 
 router.get("/posts/:userId", (req, res) => {
     const { userId } = req.params;

@@ -37,9 +37,20 @@ router.post("/events/create/new", (req, res) => {
 
 });
 
+router.get("/events/:eventId", (req, res) => {
+
+    const {eventId} = req.params
+
+    Event.findById(eventId)
+    .populate("created_by")
+        .then((event) => {
+            res.json(event);
+        })
+        .catch((err) => console.log(err));
+})
+
 router.get("/events/:userId", (req, res) => {
     const { userId } = req.params;
-    // const ownerId = req.payload._id
 
         Event.find({ created_by: userId })
         .populate("created_by")

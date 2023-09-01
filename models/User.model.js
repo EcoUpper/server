@@ -18,6 +18,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
+    image_url: {
+      type: String,
+      default: "./images/profile.png"
+  },
   },
   {
     timestamps: true,

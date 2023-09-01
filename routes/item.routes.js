@@ -65,9 +65,7 @@ router.delete("/items/:itemId",  (req, res, next) => {
     .then((deleted)=>{
          return Proposal.deleteMany({
             _id: {
-              $in: [
-                deleted.proposals
-              ]
+              $in: deleted.proposals
             }
           })
     })

@@ -49,13 +49,13 @@ router.get("/events/:eventId", (req, res) => {
         .catch((err) => console.log(err));
 })
 
-router.get("/events/:userId", (req, res) => {
+router.get("/events/created/:userId", (req, res) => {
     const { userId } = req.params;
 
-        Event.find({ created_by: userId })
+    Event.find({ created_by: userId })
         .populate("created_by")
-        .then((events) => {
-            res.json(events);
+        .then((respond) => {
+           res.json(respond);
         })
         .catch((err) => console.log(err));
 

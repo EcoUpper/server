@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Items = require("../models/Item.model");
+const Proposal = require("../models/Proposal.model");
 // const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
@@ -61,10 +62,21 @@ router.delete("/items/:itemId",  (req, res, next) => {
     const {itemId} = req.params
 
     Items.findByIdAndRemove(itemId)
-    .then(()=>{
-         res.send("Item deleted")
+    .then((deleted)=>{
+         return Proposal.deleteMany({
+            _id: {
+              $in: [
+                deleted.proposals
+              ]
+            }
+          })
+    })
+    .then((data)=>{
+        res.json(data)
     })
     .catch(err => console.log(err))
+
+
 
 
 });

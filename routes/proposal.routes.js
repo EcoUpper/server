@@ -37,7 +37,7 @@ router.post('/proposals/:itemId/new', (req, res) => {
 
     const {itemId} = req.params
     const {date, status, created_by} = req.body;
-    Proposal.create({date, status, created_by:created_by})
+    Proposal.create({date, status, created_by:created_by, item_id:itemId})
     .then((proposal)=>{
         console.log(proposal);
         return Item.findByIdAndUpdate(itemId, {$push:{proposals : proposal._id}})

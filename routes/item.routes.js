@@ -74,6 +74,7 @@ router.get("/items/owner/:userId", (req, res) => {
     const {userId} = req.params
 
     Items.find({owner : userId})
+    .populate("proposals")
     .then((data)=>{
         return res.json(data)
     })

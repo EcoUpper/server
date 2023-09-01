@@ -16,7 +16,7 @@ const proposalSchema = new Schema(
     
     created_by: { type: Schema.Types.ObjectId, ref: "User" },
 
-    // item_id: { type: Schema.Types.ObjectId, ref: "Item" } 
+    item_id: { type: Schema.Types.ObjectId, ref: "Item" } 
     },
 
     {timestamp: true}

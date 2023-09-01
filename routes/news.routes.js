@@ -7,7 +7,8 @@ const router = express.Router();
 const newspapers = [
     {
         name: "telegraph",
-        address: "https://www.telegraph.co.uk/environment/page-2/"
+        address: "https://www.telegraph.co.uk/environment/page-2/",
+        baseUrl: "https://www.telegraph.co.uk"
     },
     {
         name: "guardian",
@@ -28,7 +29,7 @@ newspapers.forEach(newspaper =>{
                 const url = $(this).attr('href')
                 articles.push({
                     title,
-                    url,
+                    url: newspaper.baseUrl ? newspaper.baseUrl  + url : url,
                     source: newspaper.name
                 })
 

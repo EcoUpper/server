@@ -36,7 +36,7 @@ newspapers.forEach(newspaper =>{
     })
 })
 
-router.get("/news", (req, res,) => {
+router.get("/news", (req, res) => {
     res.json(articles)
 });
 

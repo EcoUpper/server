@@ -20,6 +20,18 @@ router.get('/proposals/:itemId', (req, res) => {
 
 });
 
+router.get('/proposals/created/:userId', (req, res) => {
+    const {userId} = req.params;
+
+    Proposal.find({created_by : userId})
+        .then((item) => {
+            res.json(item)
+        })
+        .catch((err) => {
+            console.log("Proposals not found", err);
+        })
+});
+
 
 router.post('/proposals/:itemId/new', (req, res) => {
 

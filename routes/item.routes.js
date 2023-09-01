@@ -7,7 +7,7 @@ const Items = require("../models/Item.model");
 router.get("/items", (req, res, next) => {
 
     Items.find()
-    .populate("proposals")
+    .populate("owner proposals")
     .then((data)=>{
        res.json(data)
     })
@@ -20,7 +20,7 @@ router.get("/items/:itemId", (req, res, next) => {
     const {itemId} = req.params
 
     Items.findById(itemId)
-    .populate("proposals")
+    .populate("owner proposals")
     .then((data)=>{
         res.json(data)
     })

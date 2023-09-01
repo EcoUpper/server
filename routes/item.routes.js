@@ -122,7 +122,7 @@ router.get("/items/owner/:userId", (req, res) => {
 
 router.post("/items/create/new", (req, res, next) => {
 
-    const {name, description, image_url, type, expiration_date, status, owner} = req.body
+    const {name, description, image_url, type, expiration_date, status, owner, location} = req.body
 
     const itemObj = {
         name: name,
@@ -131,7 +131,8 @@ router.post("/items/create/new", (req, res, next) => {
         type : type,
         expiration_date: expiration_date,
         status : status,
-        owner : owner
+        owner : owner,
+        location: location,
     }
 
     Items.create(itemObj)

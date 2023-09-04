@@ -44,7 +44,6 @@ router.put("/items/:itemId", (req, res, next) => {
         owner : owner
     }
 
-
         Items.findByIdAndUpdate(itemId, itemObj, { new: true })
         .then((updatedUser)=>{
             return res.json(updatedUser)
@@ -73,9 +72,6 @@ router.delete("/items/:itemId",  (req, res, next) => {
         res.json(data)
     })
     .catch(err => console.log(err))
-
-
-
 
 });
 

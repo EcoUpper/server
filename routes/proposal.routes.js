@@ -24,6 +24,7 @@ router.get('/proposals/created/:userId', (req, res) => {
     const {userId} = req.params;
 
     Proposal.find({created_by : userId})
+        .populate("item_id")
         .then((item) => {
             res.json(item)
         })

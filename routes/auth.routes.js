@@ -7,9 +7,12 @@ const saltRounds = 10;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+// CLOUDINARY
+const fileUploader = require("../config/cloudinary.config");
+
 
 // SIGNUP POST ROUTE - WORKING
-router.post("/signup", (req, res, next) => {
+router.post("/signup", fileUploader.single("image_url"), (req, res, next) => {
   const { username, email, password } = req.body;
 
   if (username === "" || email === "" || password === "") {
@@ -32,6 +35,11 @@ router.post("/signup", (req, res, next) => {
     return;
   }
 
+  if (!req.file) {
+    next(new Error("No file uploaded!"));
+    return;
+  }
+
   User.findOne({ username })
     .then((foundUser) => {
       if (foundUser) {
@@ -42,12 +50,12 @@ router.post("/signup", (req, res, next) => {
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashedPassword = bcrypt.hashSync(password, salt);
 
-      return User.create({ username, password: hashedPassword, email });
+      return User.create({ username, password: hashedPassword, email, image_url: req.file.path });
     })
     .then((createdUser) => {
-      const { username, email, _id } = createdUser;
+      const { username, email, _id, image_url } = createdUser;
 
-      const user = { username, email, _id };
+      const user = { username, email, _id, image_url };
 
       res.status(201).json({ user: user });
     })

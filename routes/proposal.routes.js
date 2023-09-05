@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const Item = require("../models/Item.model");
 const Proposal = require("../models/Proposal.model");
-// const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 // Route to get all the proposals of an specific item 
@@ -52,14 +51,13 @@ router.post('/proposals/:itemId/new', (req, res) => {
   });
 
 
-router.delete('/proposals/:itemId/:propId', (req, res) => {
+router.delete('/proposals/:propId', (req, res) => {
     const propId = req.params.propId;
-    const {itemId} = req.params
     
     Proposal.findByIdAndRemove(propId) 
-    .then(() =>{
-        console.log("proposal removed");
-        return Item.findByIdAndUpdate(itemId, { $pull: { proposals: propId  } }, {new : true})
+    .then((removedProp) =>{
+        console.log("proposal removed", removedProp);
+        return Item.findByIdAndUpdate(removedProp.item_id, { $pull: { proposals: propId  } }, {new : true})
     })
     .then((result)=>{
         res.send(result)
@@ -77,9 +75,9 @@ router.put('/proposals/:propId', (req, res) => {
         
     Item.find({ "proposals": { $in: [propId] } })
         .then((item) => {
-            const itemCreatorId = item.created_by
+            // const itemCreatorId = item.created_by
 
-            if (userId === created_by || userId === itemCreatorId) {
+            // if (userId === created_by || userId === itemCreatorId) {
 
                 Proposal.findByIdAndUpdate(propId, { status: status }, { new: true })
                     .then((proposal) => {
@@ -91,8 +89,8 @@ router.put('/proposals/:propId', (req, res) => {
                         console.log("Proposal not found", err);
                     })
             }
-        })
-
+        // }
+        )
 });
 
 

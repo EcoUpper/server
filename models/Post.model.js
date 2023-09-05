@@ -8,6 +8,7 @@ const postSchema = new Schema(
         },
         created_by: { type: Schema.Types.ObjectId, ref: "User" },
         image_url:  {type: String},
+        likes: [{ type: Schema.Types.ObjectId, ref: "User" }]
         },
         {
             timestamps: true,

@@ -19,7 +19,7 @@ const proposalSchema = new Schema(
     item_id: { type: Schema.Types.ObjectId, ref: "Item" } 
     },
 
-    {timestamp: true}
+    {timestamps: true}
 )
 
 const Proposal = model("Proposal", proposalSchema);

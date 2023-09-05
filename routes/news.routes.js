@@ -6,17 +6,30 @@ const router = express.Router();
 
 const newspapers = [
     {
-        name: "telegraph",
-        address: "https://www.telegraph.co.uk/environment/page-2/",
-        baseUrl: "https://www.telegraph.co.uk"
+        name: "guardian",
+        address: "https://www.theguardian.com/environment/climate-crisis/all",
     },
     {
         name: "guardian",
-        address: "https://www.theguardian.com/environment/climate-crisis/all"
-    }
+        address: "https://www.theguardian.com/environment/climate-crisis?page=2",
+    },
+    {
+        name: "guardian",
+        address: "https://www.theguardian.com/environment/climate-crisis?page=3",
+    },
+    {
+        name: "guardian",
+        address: "https://www.theguardian.com/environment/climate-crisis?page=4",
+    },
+    {
+        name: "guardian",
+        address: "https://www.theguardian.com/environment/climate-crisis?page=5",
+    },
+
 ]
 
 const articles = []
+let newArticles = []
 
 newspapers.forEach(newspaper =>{
     axios.get(newspaper.address)
@@ -27,18 +40,28 @@ newspapers.forEach(newspaper =>{
        $('a:contains("climate")', page).each(function () {
                 const title = $(this).text()
                 const url = $(this).attr('href')
-                articles.push({
+                const image_url = $(this).parent().find("img").attr("src")
+                const newsObj = {
                     title,
                     url: newspaper.baseUrl ? newspaper.baseUrl  + url : url,
-                    source: newspaper.name
-                })
+                    source: newspaper.name,
+                    image_url: image_url
+                }
+                
+                articles.push(newsObj)
+            })
 
+        newArticles = [... articles].filter((article)=>{
+            return article.image_url
+        })
         })
     })
-})
+
+
+
 
 router.get("/news", (req, res) => {
-    res.json(articles)
+    res.json(newArticles)
 });
 
 module.exports = router;

@@ -31,7 +31,7 @@ router.get("/items/:itemId", (req, res, next) => {
 
 router.put("/items/:itemId", (req, res, next) => {
 
-    const {name, description, image_url, type, expiration_date, status, owner} = req.body
+    const {name, description, image_url, type, expiration_date, status, owner, location} = req.body
     const {itemId} = req.params
 
     const itemObj = {
@@ -41,7 +41,8 @@ router.put("/items/:itemId", (req, res, next) => {
         type : type,
         expiration_date: expiration_date,
         status : status,
-        owner : owner
+        owner : owner,
+        location : location
     }
 
         Items.findByIdAndUpdate(itemId, itemObj, { new: true })

@@ -30,8 +30,7 @@ router.post("/events/create/new", (req, res) => {
 
     Event.create(newEvent)
         .then((result) => {
-            console.log("Event created", result);
-            res.send("event created")
+            res.json(result)
         })
         .catch((err) => console.log(err));
 

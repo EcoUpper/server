@@ -6,23 +6,23 @@ const router = express.Router();
 
 const newspapers = [
     {
-        name: "guardian",
+        name: "the guardian",
         address: "https://www.theguardian.com/environment/climate-crisis/all",
     },
     {
-        name: "guardian",
+        name: "the guardian",
         address: "https://www.theguardian.com/environment/climate-crisis?page=2",
     },
     {
-        name: "guardian",
+        name: "the guardian",
         address: "https://www.theguardian.com/environment/climate-crisis?page=3",
     },
     {
-        name: "guardian",
+        name: "the guardian",
         address: "https://www.theguardian.com/environment/climate-crisis?page=4",
     },
     {
-        name: "guardian",
+        name: "the guardian",
         address: "https://www.theguardian.com/environment/climate-crisis?page=5",
     },
 

@@ -133,7 +133,7 @@ router.post("/items/create/new", (req, res, next) => {
     Items.create(itemObj)
     .then((json)=>{
         console.log(json);
-        res.send ("Item created sucessfully")
+        res.json(json)
     })
     .catch(err => console.log(err))
 

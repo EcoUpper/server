@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const Users = require("../models/User.model");
-// const { isAuthenticated } = require("../middleware/jwt.middleware");
+const User = require("../models/User.model");
+const Item = require("../models/Item.model");
+const Post = require("../models/Post.model");
+const Proposal = require("../models/Proposal.model");
+const Event = require("../models/Event.model");
 
 
 // GET ROUTE TO THE USER'S PROFILE
@@ -9,7 +12,7 @@ router.get("/users/:userId", (req, res, next) => {
 
     const userId = req.params.userId;
 
-    Users.findById(userId)
+    User.findById(userId)
     .then((user) => {
         res.json(user)
         // console.log(user) WORKING
@@ -25,7 +28,7 @@ router.put("/users/:userId", (req, res, next) => {
     const updatedUser = req.body;
 
 
-        Users.findByIdAndUpdate(userId, updatedUser, {new: true})
+        User.findByIdAndUpdate(userId, updatedUser, {new: true})
         .then((user) => {
             if (!user) {
                 return res.status(404).json({ message: "User not found" });
@@ -48,11 +51,23 @@ router.delete("/users/:userId", (req, res, next) => {
     const userId = req.params.userId;
 
 
-    Users.findByIdAndRemove(userId)
-    .then(() => {
-        res.send("User is deleted")
+    User.findByIdAndRemove(userId)
+    .then((response) => {
+        return Item.deleteMany({ owner : response._id })
     })
-    .catch((err) => console.log("User has been deleted"))
+    .then(() => {
+        return Post.deleteMany({ created_by : userId })
+    })
+    .then(() => {
+        return Proposal.deleteMany({ created_by : userId })
+    })
+    .then(() => {
+        return Event.deleteMany({ created_by : userId })
+    })
+    .then((response)=>{
+        res.json(response)
+    })
+    .catch((err) => console.log(err))
 
 })
 

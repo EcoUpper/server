@@ -22,7 +22,7 @@ const itemSchema = new Schema(
     },
     expiration_date: {
       type: Date,
-      min: Date.now() + 7 * 24 * 60 * 60 * 1000,
+      min: Date.now(),
     },
     proposals: [{ type: Schema.Types.ObjectId, ref: "Proposal" }],
     status: {

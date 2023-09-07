@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Item = require("../models/Item.model");
 const Proposal = require("../models/Proposal.model");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 // Route to get all the proposals of an specific item 
@@ -51,7 +52,7 @@ router.post('/proposals/:itemId/new', (req, res) => {
   });
 
 
-router.delete('/proposals/:propId', (req, res) => {
+router.delete('/proposals/:propId', isAuthenticated, (req, res) => {
     const propId = req.params.propId;
     
     Proposal.findByIdAndRemove(propId) 
@@ -69,7 +70,7 @@ router.delete('/proposals/:propId', (req, res) => {
 
 //   PUT
 
-router.put('/proposals/:propId', (req, res) => {
+router.put('/proposals/:propId', isAuthenticated, (req, res) => {
     const propId = req.params.propId;
     const { status, created_by } = req.body;
         

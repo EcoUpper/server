@@ -5,6 +5,7 @@ const Item = require("../models/Item.model");
 const Post = require("../models/Post.model");
 const Proposal = require("../models/Proposal.model");
 const Event = require("../models/Event.model");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 // GET ROUTE TO THE USER'S PROFILE
@@ -46,7 +47,7 @@ router.put("/users/:userId", (req, res, next) => {
 
 
 // POST ROUTE TO DELETE USER
-router.delete("/users/:userId", (req, res, next) => {
+router.delete("/users/:userId", isAuthenticated, (req, res, next) => {
 
     const userId = req.params.userId;
 

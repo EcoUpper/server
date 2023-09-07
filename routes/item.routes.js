@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Items = require("../models/Item.model");
 const Proposal = require("../models/Proposal.model");
-// const { isAuthenticated } = require("../middleware/jwt.middleware");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 router.get("/items", (req, res, next) => {
@@ -29,7 +29,7 @@ router.get("/items/:itemId", (req, res, next) => {
 
 });
 
-router.put("/items/:itemId", (req, res, next) => {
+router.put("/items/:itemId", isAuthenticated, (req, res, next) => {
 
     const {name, description, image_url, type, expiration_date, status, owner, location} = req.body
     const {itemId} = req.params
@@ -57,7 +57,7 @@ router.put("/items/:itemId", (req, res, next) => {
 
 });
 
-router.delete("/items/:itemId",  (req, res, next) => {
+router.delete("/items/:itemId", isAuthenticated,  (req, res, next) => {
 
     const {itemId} = req.params
 
@@ -93,29 +93,7 @@ router.get("/items/owner/:userId", (req, res) => {
 
 });
 
-
-// router.get("/items/batch/create", (req, res, next) => {
-
-//    data={
-//         "name": "Cool erik T-shirt",
-//         "description": "A trendy t-shirt with a unique design.",
-//         "image_url": "https://example.com/images/tshirt.jpg",
-//         "type": "clothing",
-//         "expiration_date": "2023-09-15T08:00:00Z",
-//         "status": "available",
-//         "owner": "64ef352122242e05133ed2c3"
-//       }
-   
-      
-//     Items.create(data)
-//     .then((data)=>{
-//         console.log(data);
-//         res.send("created")
-//     })
-//     .catch(err => console.log(err))
-// });
-
-router.post("/items/create/new", (req, res, next) => {
+router.post("/items/create/new", isAuthenticated, (req, res, next) => {
 
     const {name, description, image_url, type, expiration_date, status, owner, location} = req.body
 

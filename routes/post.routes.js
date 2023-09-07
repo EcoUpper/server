@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Post = require("../models/Post.model");
-// const { isAuthenticated } = require("../middleware/jwt.middleware");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 
 router.get("/posts", (req, res) => {
@@ -32,7 +32,7 @@ router.post("/posts/create/new", (req, res) => {
         .catch((err) => console.log(err));
 });
 
-router.put("/posts/:postId", (req, res, next) => {
+router.put("/posts/:postId", isAuthenticated, (req, res, next) => {
 
     const {postId} = req.params
     const { content, created_by, image_url, userId } = req.body;

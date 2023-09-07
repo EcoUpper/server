@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Event = require("../models/Event.model");
-// const { isAuthenticated } = require("../middleware/jwt.middleware.js");
+const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 
 router.get("/events", (req, res) => {
@@ -15,7 +15,7 @@ router.get("/events", (req, res) => {
 });
 
 
-router.post("/events/create/new", (req, res) => {
+router.post("/events/create/new", isAuthenticated, (req, res) => {
 
     const { title, content, created_by, image_url, date, location } = req.body;
 
@@ -48,7 +48,7 @@ router.get("/events/:eventId", (req, res) => {
         .catch((err) => console.log(err));
 })
 
-router.get("/events/created/:userId", (req, res) => {
+router.get("/events/created/:userId", isAuthenticated, (req, res) => {
     const { userId } = req.params;
 
     Event.find({ created_by: userId })
@@ -60,7 +60,9 @@ router.get("/events/created/:userId", (req, res) => {
 
 });
 
-router.delete("/events/delete/:eventId",  (req, res, next) => {
+router.delete("/events/delete/:eventId",  isAuthenticated, (req, res, next) => {
+
+    console.log(user);
 
     const {eventId} = req.params
 

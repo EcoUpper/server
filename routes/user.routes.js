@@ -28,6 +28,7 @@ router.put("/users/:userId", (req, res, next) => {
     const userId = req.params.userId;
     const updatedUser = req.body;
 
+    if (userId === req.payload.id) {
 
         User.findByIdAndUpdate(userId, updatedUser, {new: true})
         .then((user) => {
@@ -43,6 +44,9 @@ router.put("/users/:userId", (req, res, next) => {
                 // console.error("Error updating user profile:", err); WORKING
                 res.status(500).json({ message: "Internal Server Error" });
             });
+        } else {
+            res.status(401).json({ message: "Unauthorized user" });
+    }
 })
 
 
@@ -51,24 +55,30 @@ router.delete("/users/:userId", isAuthenticated, (req, res, next) => {
 
     const userId = req.params.userId;
 
+    if (userId === req.payload.id) {
+        
+        User.findByIdAndRemove(userId)
+        .then((response) => {
+            return Item.deleteMany({ owner : response._id })
+        })
+        .then(() => {
+            return Post.deleteMany({ created_by : userId })
+        })
+        .then(() => {
+            return Proposal.deleteMany({ created_by : userId })
+        })
+        .then(() => {
+            return Event.deleteMany({ created_by : userId })
+        })
+        .then((response)=>{
+            res.json(response)
+        })
+        .catch((err) => console.log(err))
+    } else {
+        res.status(401).json({ message: "Unauthorized user" });
+    }
 
-    User.findByIdAndRemove(userId)
-    .then((response) => {
-        return Item.deleteMany({ owner : response._id })
-    })
-    .then(() => {
-        return Post.deleteMany({ created_by : userId })
-    })
-    .then(() => {
-        return Proposal.deleteMany({ created_by : userId })
-    })
-    .then(() => {
-        return Event.deleteMany({ created_by : userId })
-    })
-    .then((response)=>{
-        res.json(response)
-    })
-    .catch((err) => console.log(err))
+
 
 })
 

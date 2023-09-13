@@ -62,16 +62,13 @@ router.get("/events/created/:userId", isAuthenticated, (req, res) => {
 
 router.delete("/events/delete/:eventId",  isAuthenticated, (req, res, next) => {
 
-    console.log(user);
-
     const {eventId} = req.params
 
     Event.findByIdAndRemove(eventId)
     .then((deletedEvent)=>{
-        console.log(deletedEvent)
+        res.json(deletedEvent)
     })
     .catch(err => console.log(err))
-
 });
 
 module.exports = router; 
